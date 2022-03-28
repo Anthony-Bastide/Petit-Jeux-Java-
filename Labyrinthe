@@ -1,0 +1,131 @@
+import java.util.Scanner;
+import java.util.Arrays;
+class labi {
+  public static int[] labi(int bt ,int dl ,int dc ,boolean lampe ,int map) {
+    Scanner sc = new Scanner(System.in);
+    int he = 0;
+    int moi = 1;
+    int[][] labu = new int[bt][bt];
+    String[][] labi = new String[bt][bt];
+    for (int n1 = 0; n1 < bt; n1++) {
+      for (int n = 0; n < bt; n++) {
+        labi[n][n1] = " ";
+      }
+    }
+    for(int n4=0 ; n4 < bt ; n4++ ) {
+        labi[n4][0]="|";
+        labi[n4][bt-1]="|";
+        labi[0][n4]="_";
+        labi[bt-1][n4]="_";
+        labu[n4][0]=1;
+        labu[n4][bt-1]=1;
+        labu[0][n4]=1;
+        labu[bt-1][n4]=1;
+      }
+      if (map==0){
+    labi[bt-1][0]="_";
+    labu[bt/2][bt/2] = 2;
+    labi[(bt-2)/2][(bt-2)/2] = "ը";
+    labu[(bt-2)/2][(bt-2)/2] = 7;
+      }
+    while (true) {
+      if (map==0){
+      if (test(bt/2,bt/2,dl,dc,lampe)==true & labu[bt/2][bt/2]==2){
+        labi[bt/2][bt/2] = "ը";
+      }else{
+        labi[bt/2][bt/2] = " ";
+        }
+      labu[dl][dc] = moi;
+      labi[dl][dc] = "M";
+      }
+      System.out.print("\033[H\033[2J");
+      System.out.flush();
+      for (int n2 = 0; n2 < bt; n2++) {
+        for (int n3 = 0; n3 < bt; n3++) {
+          System.out.print(labi[n2][n3] + "  ");
+          if (n3 == (bt - 1)) {
+            System.out.println("");
+          }
+        }
+      }
+      String rep = sc.nextLine();
+      if (rep.contains("i")) {
+        he=9;
+      }
+      if (rep.contains("z")) {
+        if (dl == 0) {
+        } else {
+          labu[dl][dc] = 0;
+          labi[dl][dc] = " ";
+          dl--;
+          he = moi + labu[dl][dc];
+          if (he==2){
+            dl++;
+          }
+        }
+      }
+      else if (rep.contains("s")) {
+        if (dl == (bt - 1)) {
+        } else {
+          labu[dl][dc] = 0;
+          labi[dl][dc] = " ";
+          dl++;
+          he = moi + labu[dl][dc + 1];
+          if (he==2){
+            dl--;
+          }
+        }
+      }
+      else if (rep.contains("q")) {
+        if (dc == 0) {
+        } else {
+          labu[dl][dc] = 0;
+          labi[dl][dc] = " ";
+          dc--;
+          he = moi + labu[dl][dc];
+          if (he==2){
+            dc++;
+          }
+        }
+      }
+      else if (rep.contains("d")) {
+        if (dc == (bt - 1)) {
+        } else {
+          labu[dl][dc] = 0;
+          labi[dl][dc] = " ";
+          dc++;
+          he = moi + labu[dl][dc];
+          if (he==2){
+            dc--;
+          }
+        }
+      }
+      if (he>2) {
+        break;
+      }
+    }
+    return new int[]{ he,dl,dc };
+  }
+  
+  private static boolean test(int nb ,int nb1 ,int dl ,int dc ,boolean lampe){
+    boolean dead=false;
+    if (lampe==true){
+      if (nb==dl+3 | nb1==dc+3 | nb==dl-3 | nb1==dc-3){
+        dead =true;
+      }
+    }
+    if (nb==dl+2 | nb1==dc+2 | nb==dl-2 | nb1==dc-2){
+      dead =true;
+    }
+    if (nb==dl+1 | nb==dl-1 | nb1==dc+1 | nb1==dc-1){
+      dead =true;
+    }
+    if (nb!=dl & nb1!=dc ){
+      dead=false;
+    }
+    if (nb==dl+1 & nb1==dc+1 | nb==dl+1 & nb1==dc-1 | nb==dl-1 & nb1==dc+1 | nb==dl-1 & nb1==dc-1){
+      dead=true;
+    }
+    return dead;
+  }
+}

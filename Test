@@ -1,0 +1,81 @@
+class test {
+  public static void caraDM (int r) {
+    clear();
+    if (r==0){
+    System.out.println(" ____________________ ");
+    System.out.println("|     __      __     |");
+    System.out.println("|    |__|    |__|    |");
+    System.out.println("|                    |");
+    System.out.println("|                    |");
+    System.out.println("|                    |");
+    System.out.println("|      \\______/      |");
+    System.out.println("|____________________|");
+    }
+    else if (r==1){
+    System.out.println("           /\\  ");
+    System.out.println("      /\\  /  \\_");
+    System.out.println("     /  \\/     \\");
+    System.out.println("    /           \\ ");
+    System.out.println("   /    () ()    \\");
+    System.out.println("  /               \\");
+    System.out.println(" /      (___)      \\");
+    System.out.println("(___________________)");
+    }
+    else if (r==2){
+    System.out.println("          |_|_|_|_|_|_| ");     
+    System.out.println("        /               \\");
+    System.out.println("       /                 \\");
+    System.out.println("    |\\/     --    --      \\/|");
+    System.out.println("    | |      ^    ^       | |");
+    System.out.println("    |/|         @         |\\|");
+    System.out.println("       \\      \\_|_/      /");
+    System.out.println("        \\ _____________ /");
+    }
+  }
+
+
+  public static void caraDB(int x){
+    clear();
+    if (x==1){
+    System.out.println("         ________");
+    System.out.println("        |        |");
+    System.out.println("       _           _");
+    System.out.println("      |   _     _   |");    
+    System.out.println("      |  (|)   (|)  |");
+    System.out.println("    --       -       --");
+    System.out.println("    --               --");
+    System.out.println("      |   ~~~~~~~   |");
+    System.out.println("       _           _");
+    System.out.println("        |         |");
+    System.out.println("         _________");
+    }
+    else{}
+  }
+
+
+  public static void inventair(int x, int y, float z, float a1 , float a2 , float a3){
+    System.out.flush();  
+    System.out.println("");  
+   
+    System.out.println("équipée");
+    System.out.println("----------------------");
+    if (z>0){
+    System.out.println("1 épée à " + z + " Dommage");
+    }
+    else {
+      System.out.println("0 épée d'équiper");
+    }
+    System.out.println("----------------------");
+    System.out.println("coins = " + x);
+    System.out.println("potion = " + y);
+    System.out.println("épée 1 = "+a1+" dmg");
+    System.out.println("épée 2 = "+a2+" dmg");
+    System.out.println("épée 3 = "+a3+" dmg");
+    System.out.println("");
+  }
+
+  
+public static void clear(){
+    System.out.print("\033[H\033[2J");  
+    System.out.flush();
+  }

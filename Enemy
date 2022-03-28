@@ -1,0 +1,24 @@
+import java.util.Random;
+class enemy {
+public static float puissance(int x,float y,float z){
+        int n=1;
+        while (n<x){
+          y=y*z;
+          n++;          
+         }
+         return y;
+       }
+
+public static float enemydmg(int x ,float y,float z ,float a) {
+        Random rd = new Random();
+        float z1 = 1.05f;
+         /* z1 = se par quoi on va mulitiplier la médiane des dmg pour avoir la plage de dmg */
+        float r;
+        y = puissance(x,y,z);
+        a = puissance(x,a,z1);
+        float i = y-a;
+        float j = y+a;
+        r = (int)i+rd.nextInt((int)j);
+        return r;
+       }
+}

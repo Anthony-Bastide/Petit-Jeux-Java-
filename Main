@@ -1,0 +1,347 @@
+import java.util.Random;
+import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Arrays;
+
+class Main {
+  public static void main(String args[]) throws InterruptedException {
+    /* save */
+    float p_pvm = 50;
+    float p_pva;
+    float PDP = 1;
+    int PCJ = 100;
+    float xp = 0;
+    float PXP = 200;
+    int lv = 1;
+    int coins = 0;
+    int potion = 0;
+    float epee = 0;
+    float epee1 = 1.25f;
+    float epee2 = 1;
+    float epee3 = 1;
+    int dmg_iteam = 0;
+    int map=0;
+    /* fin save */
+    /* p_pvm = player pv max */
+    /* p_pva = player pv acctuel */
+    /* PDP = % dmg player */
+    /* PXP = % xp player */
+    /* PCJ = % crit player */
+    String inventaire;
+    String inv;
+    String choixB;
+    int bt = 10;
+    int[] labie = new int[3];
+    labie[1] = (bt - 2);
+    labie[2] = (bt - 1) / 2;
+    int choixBN = 0;
+    int n = 0;
+    float PPE = 1.07f;
+    float PDE = 1.20f;
+    float save_epee = 0;
+    float e_pvi = 20;
+    float e_pv;
+    float p_dmg;
+    float e_dmg = 5;
+    float e_dmgr;
+    float crit;
+    int gain;
+    int drop;
+    boolean lampe = false;
+    int r;
+    int PDIS = 4; /* PDIS = % dmg inferieur superieur */
+    /* interaction */
+    String[] jeu = { "attaquer[a]", "potion[p]" };
+    String[] elemant = { "[feu]", "[eau]", "[air]", "[terre]" };
+    String elem;
+    String e_elem = "";
+    String magasin;
+    String rep;
+    String w8;
+    String article;
+    Scanner sc = new Scanner(System.in);
+    Random rd = new Random();
+    /* debut programme */
+    p_pva = p_pvm;
+    test.clear();
+    while (true) {
+      labie = labi.labi(bt, labie[1], labie[2], lampe, map);
+      System.out.println("");
+      rep = "";
+      /* pres fight */
+      while (labie[0] == 3) {
+        labie[0] = 0;
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("un enemy est apparu !!");
+        Thread.sleep(2000);
+        e_pv = enemy.puissance(lv, e_pvi, PPE);
+        r = rd.nextInt(3);
+        /* fight */
+        while (p_pva > 0 & e_pv > 0) {
+          test.caraDM(r);
+          System.out.println("vous " + (int) p_pva);
+          System.out.println("enemy " + (int) e_pv);
+          System.out.println(jeu[0] + " " + jeu[1]);
+          w8 = sc.nextLine();
+          if (w8.contains("a")) {
+            p_dmg = rd.nextInt(30);
+            p_dmg = p_dmg * PDP;
+            p_dmg = p_dmg + dmg_iteam;
+            e_dmgr = enemy.enemydmg(lv, e_dmg, PDE, PDIS);
+            crit = combat.crit(20);
+            e_dmgr = e_dmgr * crit;
+            p_pva = p_pva - e_dmgr;
+            Thread.sleep(1000);
+            System.out.println("vous " + (int) p_pva);
+            crit = combat.crit(PCJ);
+            p_dmg = p_dmg * crit;
+            e_pv = e_pv - p_dmg;
+            Thread.sleep(1000);
+            System.out.println("enemy " + (int) e_pv);
+            Thread.sleep(1000);
+          }
+          if (w8.contains("p")) {
+            if (potion > 0) {
+              potion--;
+              p_pva = p_pva + 30;
+              System.out.println("pv + 30");
+              System.out.println("il vous reste " + potion + " potion");
+              Thread.sleep(2000);
+            } else {
+              System.out.println("Vous n'avez pas de potion !");
+              Thread.sleep(1000);
+            }
+          }
+        }
+        /* après fight */
+        if (p_pva <= 0) {
+          System.out.println("Vous étes mort");
+        }
+        if (e_pv <= 0) {
+          System.out.println("le monstre a été tuer");
+          xp = xp + 50;
+          System.out.println("vous avez gagné 50 d'xp");
+          gain = rd.nextInt(16);
+          coins = coins + gain;
+          System.out.println("+ " + gain + " coins");
+          drop = rd.nextInt(5);
+          if (drop == 0) {
+            potion++;
+            System.out.println("vous avez drop 1 potion");
+          }
+          Thread.sleep(2000);
+        }
+      }
+      /* commende player */
+      if (rep.contains("carac")) {
+
+      }
+      if (rep.contains("lv")) {
+        System.out.println("vous étes lv " + lv);
+        System.out.println("vous étes à " + xp + " xp sur " + PXP);
+      }
+      /* inventaire */
+      if (labie[0] == 9) {
+        test.clear();
+        test.inventair(coins, potion, epee, epee1, epee2, epee3);
+        inventaire = "open";
+        while (inventaire.contains("open")) {
+          inv = sc.nextLine();
+          if (inv.contains("add epee1")) {
+            test.clear();
+            save_epee = epee;
+            epee = (epee1 - 1) * 100;
+            epee = (int) epee;
+            epee1 = save_epee / 100 + 1;
+            test.inventair(coins, potion, epee, epee1, epee2, epee3);
+          } else if (inv.contains("add epee2")) {
+            test.clear();
+            save_epee = epee;
+            epee = (epee2 - 1) * 100;
+            epee = (int) epee;
+            epee2 = save_epee;
+
+            test.inventair(coins, potion, epee, epee1, epee2, epee3);
+          } else if (inv.contains("add epee3")) {
+            test.clear();
+            save_epee = epee;
+            epee = (epee3 - 1) * 100;
+            epee = (int) epee;
+            epee3 = save_epee;
+            test.inventair(coins, potion, epee, epee1, epee2, epee3);
+          } else if (inv.contains("fin")) {
+            inventaire = "close";
+            test.clear();
+            System.out.print("inventaire fermé");
+            Thread.sleep(1000);
+          }
+        }
+        dmg_iteam = dmg_iteam + (int) epee;
+      }
+      /* fin inventaire */
+      /* magasin */
+      if (labie[0] == 8) {
+        magasin = "open";
+        test.clear();
+        System.out.println("que voulez vous ?");
+        System.out.println("potion 20g");
+        System.out.println("épée à 10 dmg 50g");
+        while (magasin.contains("open")) {
+          System.out.println("");
+          System.out.println("coins = " + coins);
+          article = sc.nextLine();
+          if (article.contains("fin")) {
+            magasin = "close";
+            test.clear();
+            System.out.println("Magasin fermé");
+            Thread.sleep(1000);
+          }
+          /* achat de potion */
+          if (article.contains("potion")) {
+            if (coins >= 20) {
+              potion++;
+              coins = coins - 20;
+              System.out.println("Vous avez acheté une potion");
+            } else {
+              System.out.println("Vous n'avais pas assé d'argent pour acheter cette article");
+            }
+          }
+          /* achat d'épée */
+          if (article.contains("epee")) {
+            if (coins >= 50) {
+              epee1 = 1.10f;
+              coins = coins - 50;
+              System.out.println("vous avez acheté 1 épée à " + epee + " Dommage");
+            } else {
+              System.out.println("Vous n'avais pas assé d'argent pour acheter cette article");
+            }
+          }
+        }
+      }
+      /* fin magasin */
+      /* combat de boss */
+      while (rep.contains("boss")) {
+        rep = "";
+        test.clear();
+        System.out.println("Liste De Boss");
+        System.out.println("ZarbiR");
+        System.out.println("");
+        while (choixBN == 0) {
+          choixB = sc.nextLine();
+          if (choixB.contains("ZarbiR")) {
+            choixBN = 1;
+          }
+        }
+        Thread.sleep(1000);
+        if (choixBN == 1) {
+          test.caraDB(choixBN);
+          e_pv = 500;
+          while (p_pva > 0 & e_pv > 0) {
+            test.caraDB(choixBN);
+            System.out.println("vous " + (int) p_pva);
+            System.out.println("enemy " + (int) e_pv);
+            System.out.println(jeu[0] + " " + jeu[1]);
+            w8 = sc.nextLine();
+            if (w8.contains("a")) {
+              p_dmg = rd.nextInt(30);
+              p_dmg = p_dmg * PDP;
+              p_dmg = p_dmg + dmg_iteam;
+              e_dmgr = enemy.enemydmg(lv, e_dmg, PDE, PDIS);
+              while (n == 0) {
+                System.out.println(elemant[0] + "       " + elemant[1]);
+                System.out.println(elemant[2] + "       " + elemant[3]);
+                elem = sc.nextLine();
+                if (elem.contains("feu") | elem.contains("eau") | elem.contains("air") | elem.contains("terre")) {
+                  n++;
+                }
+              }
+              n = 0;
+              elem = e_elem;
+              elem = "";
+              crit = combat.crit(20);
+              e_dmgr = e_dmgr * crit;
+              p_pva = p_pva - e_dmgr;
+              Thread.sleep(1000);
+              System.out.println("vous " + (int) p_pva);
+              crit = combat.crit(PCJ);
+              p_dmg = p_dmg * crit;
+              e_pv = e_pv - p_dmg;
+              Thread.sleep(1000);
+              System.out.println("enemy " + (int) e_pv);
+              Thread.sleep(1000);
+            }
+            if (w8.contains("p")) {
+              if (potion > 0) {
+                potion--;
+                p_pva = p_pva + 30;
+                System.out.println("pv + 30");
+                System.out.println("il vous reste " + potion + " potion");
+                Thread.sleep(2000);
+              } else {
+                System.out.println("Vous n'avez pas de potion !");
+                Thread.sleep(1000);
+              }
+            }
+          }
+          if (p_pva <= 0) {
+            System.out.println("Vous étes mort");
+          }
+          if (e_pv <= 0) {
+            System.out.println("le monstre a été tuer");
+            xp = xp + 500;
+            System.out.println("vous avez gagné 500 d'xp");
+            gain = 200 + rd.nextInt(500);
+            coins = coins + gain;
+            System.out.println("+ " + gain + " coins");
+            drop = rd.nextInt(3);
+            if (drop == 0) {
+              if (epee1 < 0) {
+                epee1 = 1.25f;
+                System.out.println("vous avez drop 1 épée a 25 Dommage");
+              }
+            }
+          }
+        }
+      }
+      /* fin boss */
+      /* lv up */
+      if (xp >= PXP) {
+        lv++;
+        System.out.println("vous avez up lv " + lv);
+        PDP = PDP * 1.5f;
+        p_pvm = p_pvm * 1.25f;
+        p_pva = p_pvm;
+        PXP = PXP * 2;
+        if (PCJ == 1) {
+        } else {
+          PCJ = PCJ / 2;
+        }
+      }
+      /* save */
+      if (rep.contains("save")) {
+        test.clear();
+        System.out.println("float p_pvm = " + p_pvm + ";");
+        System.out.println("float p_pva = " + p_pva + ";");
+        System.out.println("float PDP = " + PDP + ";");
+        System.out.println("int PCJ = " + PCJ + ";");
+        System.out.println("float xp = " + xp + ";");
+        System.out.println("float PXP = " + PXP + ";");
+        System.out.println("int lv = " + lv + ";");
+        System.out.println("int coins = " + coins + ";");
+        System.out.println("int potion = " + potion + ";");
+        System.out.println("int epee = " + epee + ";");
+        System.out.println("int dmg_iteam = " + dmg_iteam + ";");
+        break;
+      }
+    }
+  }
+}
+
+/* reset jeu */
+/*
+ * float p_pvm = 50; float p_pva; float PDP = 1; int PCJ = 100; float xp = 0;
+ * float PXP = 200; int lv = 1; int coins = 0; int potion = 0; int epee = 0; int
+ * dmg_epee = 0; int dmg_iteam = 0;
+ */

@@ -1,0 +1,36 @@
+import java.util.Random;
+import java.awt.*;
+import java.awt.event.*;
+class combat {
+  public static float crit(int y){
+    Random rd = new Random();
+    float rt;
+    float crit;
+    int echeccrit = rd.nextInt(100);
+    if (echeccrit==0){
+      rt=0;
+      System.out.println("Echec Critique !!");
+    }else{
+      crit = rd.nextInt((int)y);
+      if (crit==0) {
+        rt = 1.5f;
+        System.out.println("CRIT !!");
+      }
+      else {
+        rt = 1;
+      }
+    }
+    return rt;
+  }
+
+  public static void lvup (){
+    
+  }
+
+	public void keyPressed(KeyEvent e) {
+    char Caract = e.getKeyChar();
+    if (e.getKeyChar()=='f'){
+      System.out.println("yooooo");
+    }
+  }
+}
